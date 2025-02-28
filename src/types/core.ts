@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface BotConfig {
   token: string;
   numberId: string;
@@ -55,6 +54,9 @@ export interface WebhookMessage {
     id: string;
     mimeType: string;
     filename: string;
+  };
+  media?: {
+    id: string;
   };
   button?: {
     payload: string;

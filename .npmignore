@@ -1,0 +1,43 @@
+# Source and test files
+src/
+test/
+examples/
+__tests__/
+coverage/
+.nyc_output/
+
+# Configuration files
+tsconfig.json
+.eslintrc*
+.prettierrc*
+jest.config.*
+*.config.js
+.github/
+.husky/
+
+# Documentation and assets
+docs/
+assets/
+*.md
+!README.md
+
+# Development files
+.editorconfig
+.gitignore
+.env*
+*.pem
+config.*.json
+credentials.json
+
+# IDE and OS files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+logs/
+*.log
+tmp/
+temp/

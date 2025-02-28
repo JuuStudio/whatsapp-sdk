@@ -8,7 +8,7 @@ import {
 import { handleApiError, WhatsAppError } from "./utils/errors";
 
 export class WhatsAppClient {
-  private api: AxiosInstance;
+  protected api: AxiosInstance;
   private config: BotConfig;
 
   constructor(config: BotConfig) {
