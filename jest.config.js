@@ -1,15 +1,14 @@
+/** @type {import('jest').Config} */
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.jsx?$": "babel-jest",
-  },
-  transformIgnorePatterns: ["node_modules/(?!(axios|axios-mock-adapter)/)"],
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  globals: {
-    "ts-jest": {
-      isolatedModules: true,
-    },
+  roots: ["<rootDir>/src", "<rootDir>/test"],
+  setupFiles: ["<rootDir>/test/setup.ts"],
+  testMatch: ["**/*.test.ts"],
+  collectCoverageFrom: ["src/**/*.ts", "!src/examples/**", "!src/**/*.d.ts"],
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
 };
