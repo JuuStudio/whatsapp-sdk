@@ -31,17 +31,17 @@
     "webhook"
   ],
   "author": {
-    "name": "Your Name",
-    "url": "https://github.com/yourusername"
+    "name": "Juu Studio",
+    "url": "https://github.com/JuuStudio/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/whatsapp-cloud-sdk.git"
+    "url": "git+https://github.com/JuuStudio/whatsapp-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/whatsapp-cloud-sdk/issues"
+    "url": "https://github.com/JuuStudio/whatsapp-sdk.git/issues"
   },
-  "homepage": "https://github.com/yourusername/whatsapp-cloud-sdk#readme",
+  "homepage": "https://github.com/JuuStudio/whatsapp-sdk.git#readme",
   "license": "MIT",
   "engines": {
     "node": ">=14.0.0"
