@@ -1,5 +1,5 @@
 import { createBot, verifyWebhook, handleWebhook } from "../index";
-import { WebhookMessageType } from "../types/core";
+import { WebhookPayload } from "../types/core";
 
 describe("WhatsApp Client", () => {
   const bot = createBot({
@@ -32,7 +32,7 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook processes message correctly", () => {
-    const payload: any = {
+    const payload: WebhookPayload = {
       object: "whatsapp_business_account",
       entry: [
         {
@@ -75,77 +75,96 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook processes interactive message correctly", () => {
-    const payload: any = {
+    const payload: WebhookPayload = {
       object: "whatsapp_business_account",
-      entry: [{
-        id: "test",
-        changes: [{
-          value: {
-            messaging_product: "whatsapp",
-            metadata: {
-              display_phone_number: "1234567890",
-              phone_number_id: "1234"
+      entry: [
+        {
+          id: "test",
+          changes: [
+            {
+              value: {
+                messaging_product: "whatsapp",
+                metadata: {
+                  display_phone_number: "1234567890",
+                  phone_number_id: "1234",
+                },
+                contacts: [
+                  {
+                    profile: { name: "Test User" },
+                    wa_id: "1234567890",
+                  },
+                ],
+                messages: [
+                  {
+                    from: "1234567890",
+                    id: "msg-id",
+                    timestamp: "1234567890",
+                    type: "interactive",
+                    interactive: {
+                      type: {
+                        button_reply: {
+                          id: "btn_1",
+                          title: "Yes",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              field: "messages",
             },
-            contacts: [{
-              profile: { name: "Test User" },
-              wa_id: "1234567890"
-            }],
-            messages: [{
-              from: "1234567890",
-              id: "msg-id",
-              timestamp: "1234567890",
-              type: "interactive",
-              interactive: {
-                type: {
-                  button_reply: {
-                    id: "btn_1",
-                    title: "Yes"
-                  }
-                }
-              }
-            }]
-          },
-          field: "messages"
-        }]
-      }]
+          ],
+        },
+      ],
     };
 
     const result = handleWebhook(payload);
-    expect(result.messages[0].content).toHaveProperty("type.button_reply.id", "btn_1");
+    expect(result.messages[0].content).toHaveProperty(
+      "type.button_reply.id",
+      "btn_1"
+    );
   });
 
   test("handleWebhook processes status updates", () => {
-    const payload: any = {
+    const payload: WebhookPayload = {
       object: "whatsapp_business_account",
-      entry: [{
-        id: "test",
-        changes: [{
-          value: {
-            messaging_product: "whatsapp",
-            metadata: {
-              display_phone_number: "1234567890",
-              phone_number_id: "1234"
+      entry: [
+        {
+          id: "test",
+          changes: [
+            {
+              value: {
+                messaging_product: "whatsapp",
+                metadata: {
+                  display_phone_number: "1234567890",
+                  phone_number_id: "1234",
+                },
+                contacts: [
+                  {
+                    profile: { name: "Test User" },
+                    wa_id: "1234567890",
+                  },
+                ],
+                statuses: [
+                  {
+                    id: "msg-id",
+                    status: "delivered",
+                    timestamp: "1234567890",
+                    recipient_id: "1234567890",
+                    conversation: {
+                      id: "conv_id",
+                      origin: {
+                        type: "service",
+                      },
+                    },
+                  },
+                ],
+              },
+              field: "messages",
             },
-            contacts: [{
-              profile: { name: "Test User" },
-              wa_id: "1234567890"
-            }],
-            statuses: [{
-              id: "msg-id",
-              status: "delivered",
-              timestamp: "1234567890",
-              recipient_id: "1234567890",
-              conversation: {
-                id: "conv_id",
-                origin: {
-                  type: "service"
-                }
-              }
-            }]
-          },
-          field: "messages"
-        }]
-      }]
+          ],
+        },
+      ],
     };
 
     const result = handleWebhook(payload);
@@ -154,12 +173,12 @@ describe("WhatsApp Client", () => {
   });
 
   test("sendText with preview URL", async () => {
-    const mockApi = jest.spyOn(bot['api'], 'post').mockResolvedValueOnce({
+    const mockApi = jest.spyOn(bot["api"], "post").mockResolvedValueOnce({
       data: {
         messaging_product: "whatsapp",
         contacts: [{ input: "+16505551234", wa_id: "16505551234" }],
-        messages: [{ id: "test-message-id" }]
-      }
+        messages: [{ id: "test-message-id" }],
+      },
     });
 
     await bot.sendText("16505551234", "Hello with URL", true);
@@ -173,8 +192,8 @@ describe("WhatsApp Client", () => {
         type: "text",
         text: {
           preview_url: true,
-          body: "Hello with URL"
-        }
+          body: "Hello with URL",
+        },
       })
     );
 
@@ -182,17 +201,17 @@ describe("WhatsApp Client", () => {
   });
 
   test("sendImage with media ID", async () => {
-    const mockApi = jest.spyOn(bot['api'], 'post').mockResolvedValueOnce({
+    const mockApi = jest.spyOn(bot["api"], "post").mockResolvedValueOnce({
       data: {
         messaging_product: "whatsapp",
         contacts: [{ input: "+16505551234", wa_id: "16505551234" }],
-        messages: [{ id: "test-message-id" }]
-      }
+        messages: [{ id: "test-message-id" }],
+      },
     });
 
     await bot.sendImage("16505551234", {
       id: "test-image-id",
-      caption: "Test image"
+      caption: "Test image",
     });
 
     expect(mockApi).toHaveBeenCalledWith(
@@ -204,8 +223,8 @@ describe("WhatsApp Client", () => {
         type: "image",
         image: {
           id: "test-image-id",
-          caption: "Test image"
-        }
+          caption: "Test image",
+        },
       })
     );
 
@@ -213,32 +232,40 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook extracts messages directly", () => {
-    const payload: any = {
+    const payload: WebhookPayload = {
       object: "whatsapp_business_account",
-      entry: [{
-        id: "test",
-        changes: [{
-          value: {
-            messaging_product: "whatsapp",
-            metadata: {
-              display_phone_number: "1234567890",
-              phone_number_id: "1234"
+      entry: [
+        {
+          id: "test",
+          changes: [
+            {
+              value: {
+                messaging_product: "whatsapp",
+                metadata: {
+                  display_phone_number: "1234567890",
+                  phone_number_id: "1234",
+                },
+                contacts: [
+                  {
+                    profile: { name: "Test User" },
+                    wa_id: "1234567890",
+                  },
+                ],
+                messages: [
+                  {
+                    from: "1234567890",
+                    id: "msg-id",
+                    timestamp: "1234567890",
+                    type: "text",
+                    text: { body: "Hello" },
+                  },
+                ],
+              },
+              field: "messages",
             },
-            contacts: [{
-              profile: { name: "Test User" },
-              wa_id: "1234567890"
-            }],
-            messages: [{
-              from: "1234567890",
-              id: "msg-id",
-              timestamp: "1234567890",
-              type: "text",
-              text: { body: "Hello" }
-            }]
-          },
-          field: "messages"
-        }]
-      }]
+          ],
+        },
+      ],
     };
 
     const { messages, statuses, contacts } = handleWebhook(payload);
