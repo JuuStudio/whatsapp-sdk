@@ -1,4 +1,5 @@
 import { createBot, verifyWebhook, handleWebhook } from "../index";
+import { WebhookMessageType } from "../types/core";
 
 describe("WhatsApp Client", () => {
   const bot = createBot({
@@ -31,7 +32,7 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook processes message correctly", () => {
-    const payload = {
+    const payload: any = {
       object: "whatsapp_business_account",
       entry: [
         {
@@ -55,7 +56,7 @@ describe("WhatsApp Client", () => {
                     from: "1234567890",
                     id: "msg-id",
                     timestamp: "1234567890",
-                    type: "text" as const,
+                    type: "text",
                     text: { body: "Hello" },
                   },
                 ],
@@ -74,7 +75,7 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook processes interactive message correctly", () => {
-    const payload = {
+    const payload: any = {
       object: "whatsapp_business_account",
       entry: [{
         id: "test",
@@ -93,7 +94,7 @@ describe("WhatsApp Client", () => {
               from: "1234567890",
               id: "msg-id",
               timestamp: "1234567890",
-              type: "interactive" as const,
+              type: "interactive",
               interactive: {
                 type: {
                   button_reply: {
@@ -114,7 +115,7 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook processes status updates", () => {
-    const payload = {
+    const payload: any = {
       object: "whatsapp_business_account",
       entry: [{
         id: "test",
@@ -131,13 +132,13 @@ describe("WhatsApp Client", () => {
             }],
             statuses: [{
               id: "msg-id",
-              status: "delivered" as const,
+              status: "delivered",
               timestamp: "1234567890",
               recipient_id: "1234567890",
               conversation: {
                 id: "conv_id",
                 origin: {
-                  type: "service" as const
+                  type: "service"
                 }
               }
             }]
@@ -212,7 +213,7 @@ describe("WhatsApp Client", () => {
   });
 
   test("handleWebhook extracts messages directly", () => {
-    const payload = {
+    const payload: any = {
       object: "whatsapp_business_account",
       entry: [{
         id: "test",
@@ -231,7 +232,7 @@ describe("WhatsApp Client", () => {
               from: "1234567890",
               id: "msg-id",
               timestamp: "1234567890",
-              type: "text" as const,
+              type: "text",
               text: { body: "Hello" }
             }]
           },
