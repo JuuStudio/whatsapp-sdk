@@ -1,0 +1,26 @@
+{
+  "name": "whatsapp-sdk",
+  "version": "1.0.0",
+  "description": "A TypeScript SDK for interacting with the WhatsApp API.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "whatsapp",
+    "sdk",
+    "typescript",
+    "api"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    // Add your runtime dependencies here
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "jest": "^26.0.0",
+    "@types/jest": "^26.0.0"
+  }
+}
