@@ -1,13 +1,13 @@
 {
-  "name": "whatsapp-cloud-sdk",
+  "name": "whatsapp-sdk",
   "version": "1.0.0",
   "description": "Modern TypeScript SDK for WhatsApp Cloud API v22.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "rimraf dist && tsc",
