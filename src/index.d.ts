@@ -67,5 +67,8 @@ declare module "@juutech/whatsapp-sdk" {
   ): string | boolean;
 }
 
-export function getMediaUrl(mediaId: string): Promise<string>;
-export function downloadMedia(mediaId: string): Promise<Buffer>;
+// Add a new module declaration for the media subpath
+declare module "@juutech/whatsapp-sdk/media" {
+  export function getMediaUrl(mediaId: string): Promise<string>;
+  export function downloadMedia(mediaId: string): Promise<Buffer>;
+}

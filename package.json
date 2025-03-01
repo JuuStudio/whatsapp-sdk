@@ -74,5 +74,15 @@
   },
   "dependencies": {
     "axios": "^0.28.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./media": {
+      "types": "./dist/media.d.ts",
+      "default": "./dist/media.js"
+    }
   }
 }
