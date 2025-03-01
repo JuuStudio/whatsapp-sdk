@@ -65,6 +65,7 @@ declare module "@juutech/whatsapp-sdk" {
     token: string,
     challenge: string
   ): string | boolean;
-  export function getMediaUrl(mediaId: string): Promise<string>;
-  export function downloadMedia(url: string): Promise<Buffer>;
 }
+
+export function getMediaUrl(mediaId: string): Promise<string>;
+export function downloadMedia(mediaId: string): Promise<Buffer>;

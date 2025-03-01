@@ -5,7 +5,7 @@ import {
   WebhookMessage,
   WebhookStatus,
 } from "./types/core";
-
+import { getMediaUrl, downloadMedia } from "./utils/media";
 export function createBot(config: BotConfig): WhatsAppClient {
   return new WhatsAppClient(config);
 }
@@ -93,3 +93,4 @@ export function handleWebhook(payload: WebhookPayload) {
 
 export { WhatsAppClient };
 export * from "./types/core";
+export { getMediaUrl, downloadMedia };
