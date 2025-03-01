@@ -1,1 +1,1 @@
-export { getMediaUrl, downloadMedia } from './utils/media'; 
+export { getMediaUrl, downloadMedia } from "./utils/media";
