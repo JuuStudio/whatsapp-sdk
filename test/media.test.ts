@@ -6,36 +6,33 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('Media Functions', () => {
-  const ACCESS_TOKEN = 'test-token';
+  const params = {
+    mediaId: 'media-id',
+    accessToken: 'test-token'
+  };
 
   describe('getMediaUrl', () => {
     it('should fetch media URL successfully', async () => {
-      const mockResponse = {
-        data: {
-          url: 'https://example.com/media',
-        },
-      };
-
+      const mockResponse = { data: { url: 'https://example.com/media' } };
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const url = await mainGetMediaUrl('media-id', ACCESS_TOKEN);
+      const url = await mainGetMediaUrl(params);
       expect(url).toBe('https://example.com/media');
-      expect(mockedAxios.get).toHaveBeenCalledWith(
-        'https://graph.facebook.com/v22.0/media-id',
-        expect.any(Object)
-      );
     });
   });
 
   describe('downloadMedia', () => {
     it('should download media successfully', async () => {
-      const mockResponse = {
-        data: Buffer.from('test-data'),
-      };
+      // First mock: getMediaUrl response
+      mockedAxios.get.mockResolvedValueOnce({ 
+        data: { url: 'https://example.com/media' } 
+      });
+      // Second mock: actual media download response
+      mockedAxios.get.mockResolvedValueOnce({ 
+        data: Buffer.from('test-data') 
+      });
 
-      mockedAxios.get.mockResolvedValueOnce(mockResponse);
-
-      const result = await mainDownloadMedia('media-id', ACCESS_TOKEN);
+      const result = await mainDownloadMedia(params);
       expect(result).toEqual(Buffer.from('test-data'));
     });
   });

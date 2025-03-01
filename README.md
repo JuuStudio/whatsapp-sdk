@@ -35,11 +35,12 @@ await whatsapp.sendText("1234567890", "Hello, World!");
 
 // Handle webhook verification
 app.get("/webhook", (req, res) => {
-  const mode = req.query["hub.mode"];
-  const token = req.query["hub.verify_token"];
-  const challenge = req.query["hub.challenge"];
-
-  const result = verifyWebhook(mode, token, challenge, "your-verify-token");
+  const result = verifyWebhook({
+    mode: req.query["hub.mode"],
+    token: req.query["hub.verify_token"],
+    challenge: req.query["hub.challenge"],
+    verifyToken: "your-verify-token"
+  });
 
   if (result) {
     res.send(result);
@@ -108,6 +109,24 @@ await whatsapp.sendDocument("1234567890", {
 await whatsapp.sendSticker("1234567890", {
   link: "https://example.com/sticker.webp",
 });
+
+### Media Utilities
+
+```typescript
+// Get media URL from message
+const { url } = await getMediaUrl({
+  mediaId: "media-id",
+  accessToken: "your-access-token"
+});
+
+// Download media content
+const buffer = await downloadMedia({
+  mediaId: "media-id",
+  accessToken: "your-access-token"
+});
+
+// You can also import directly from media subpath
+import { getMediaUrl, downloadMedia } from "@juutech/whatsapp-sdk/media";
 ```
 
 ### Interactive Messages

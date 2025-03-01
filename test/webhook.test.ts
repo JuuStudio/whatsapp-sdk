@@ -4,22 +4,22 @@ import { WebhookPayload, WebhookMessageType } from '../src/types/core';
 describe('Webhook Functions', () => {
   describe('verifyWebhook', () => {
     it('should verify valid webhook challenge', () => {
-      const result = verifyWebhook(
-        'subscribe',
-        'correct-token',
-        'challenge-string',
-        'correct-token'
-      );
+      const result = verifyWebhook({
+        mode: 'subscribe',
+        token: 'correct-token',
+        challenge: 'challenge-string',
+        verifyToken: 'correct-token'
+      });
       expect(result).toBe('challenge-string');
     });
 
     it('should reject invalid verify token', () => {
-      const result = verifyWebhook(
-        'subscribe',
-        'wrong-token',
-        'challenge-string',
-        'correct-token'
-      );
+      const result = verifyWebhook({
+        mode: 'subscribe',
+        token: 'wrong-token',
+        challenge: 'challenge-string',
+        verifyToken: 'correct-token'
+      });
       expect(result).toBe(false);
     });
   });

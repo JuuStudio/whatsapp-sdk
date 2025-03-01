@@ -221,3 +221,15 @@ export interface SendDocumentMessage {
   to: string;
   document: DocumentMessage;
 }
+
+export interface WebhookVerifyParams {
+  mode: string;
+  token: string;
+  challenge: string;
+  verifyToken: string;
+}
+
+export interface MediaParams {
+  mediaId: string;
+  accessToken: string;
+}

@@ -6,7 +6,6 @@ declare module "@juutech/whatsapp-sdk" {
   }
 
   interface WebhookEvent {
-    // Add webhook event properties based on WhatsApp API response
     object: string;
     entry: Array<{
       id: string;
@@ -18,22 +17,46 @@ declare module "@juutech/whatsapp-sdk" {
             phone_number_id: string;
           };
           contacts?: Array<{
-            profile: {
-              name: string;
-            };
+            profile: { name: string };
             wa_id: string;
           }>;
           messages?: Array<{
             from: string;
             id: string;
             timestamp: string;
-            text?: {
-              body: string;
-            };
-            type: string;
-            image?: {
+            type: WebhookMessageType;
+            text?: { body: string };
+            image?: { id: string; mime_type: string };
+            video?: { id: string; mime_type: string };
+            audio?: { id: string; mime_type: string };
+            document?: { 
               id: string;
               mime_type: string;
+              filename: string;
+            };
+            interactive?: {
+              type: string;
+              button_reply?: {
+                id: string;
+                title: string;
+              };
+              list_reply?: {
+                id: string;
+                title: string;
+                description?: string;
+              };
+            };
+            location?: {
+              latitude: number;
+              longitude: number;
+              name?: string;
+              address?: string;
+            };
+            sticker?: {
+              mime_type: string;
+              sha256: string;
+              id: string;
+              animated: boolean;
             };
           }>;
         };
@@ -58,17 +81,68 @@ declare module "@juutech/whatsapp-sdk" {
     // Add other bot methods as needed
   }
 
+  interface WebhookVerifyParams {
+    mode: string;
+    token: string;
+    challenge: string;
+    verifyToken: string;
+  }
+
+  interface MediaParams {
+    mediaId: string;
+    accessToken: string;
+  }
+
+  interface WebhookMessage {
+    from: string;
+    id: string;
+    timestamp: string;
+    type: string;
+    text?: { body: string };
+    image?: { id: string; mime_type: string };
+  }
+
+  interface WebhookStatus {
+    id: string;
+    status: string;
+    timestamp: string;
+    recipient_id: string;
+    conversation: {
+      id: string;
+      origin: { type: string };
+    };
+  }
+
+  type WebhookMessageType =
+    | "text"
+    | "image"
+    | "video"
+    | "audio"
+    | "document"
+    | "interactive"
+    | "button"
+    | "sticker"
+    | "system"
+    | "location"
+    | "unknown";
+
   export function createBot(config: BotConfig): Bot;
-  export function handleWebhook(event: WebhookEvent): Promise<void>;
-  export function verifyWebhook(
-    mode: string,
-    token: string,
-    challenge: string
-  ): string | boolean;
+  export function handleWebhook(event: WebhookEvent): Promise<{
+    messages: WebhookMessage[];
+    statuses: WebhookStatus[];
+    contacts: Array<{ profile: { name: string }; wa_id: string }>;
+  }>;
+  export function verifyWebhook(params: WebhookVerifyParams): string | false;
+  export function getMediaUrl(params: MediaParams): Promise<string>;
+  export function downloadMedia(params: MediaParams): Promise<Buffer>;
 }
 
 // Add a new module declaration for the media subpath
 declare module "@juutech/whatsapp-sdk/media" {
-  export function getMediaUrl(mediaId: string): Promise<string>;
-  export function downloadMedia(mediaId: string): Promise<Buffer>;
+  interface MediaParams {
+    mediaId: string;
+    accessToken: string;
+  }
+  export function getMediaUrl(params: MediaParams): Promise<string>;
+  export function downloadMedia(params: MediaParams): Promise<Buffer>;
 }

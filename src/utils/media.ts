@@ -1,16 +1,13 @@
 import axios from "axios";
 import { WhatsAppError } from "../utils/errors";
+import { MediaParams } from '../types/core';
 
 const GRAPH_API_URL = "https://graph.facebook.com/v22.0";
 
-export async function getMediaUrl(
-  mediaId: string,
-  accessToken: string,
-  phoneNumberId?: string
-): Promise<string> {
+export async function getMediaUrl(params: MediaParams): Promise<string> {
+  const { mediaId, accessToken } = params;
   try {
-    let url = `${GRAPH_API_URL}/${mediaId}`;
-    if (phoneNumberId) url += `?phone_number_id=${phoneNumberId}`;
+    const url = `${GRAPH_API_URL}/${mediaId}`;
 
     const response = await axios.get(url, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -29,16 +26,15 @@ export async function getMediaUrl(
   }
 }
 
-export async function downloadMedia(
-  mediaUrl: string,
-  accessToken: string
-): Promise<ArrayBuffer> {
+export async function downloadMedia(params: MediaParams): Promise<Buffer> {
+  const { accessToken } = params;
   try {
+    const mediaUrl = await getMediaUrl(params);
     const response = await axios.get(mediaUrl, {
       headers: { Authorization: `Bearer ${accessToken}` },
       responseType: "arraybuffer",
     });
-    return response.data;
+    return Buffer.from(response.data);
   } catch (error: any) {
     throw new Error(`Failed to download media: ${error.message}`);
   }

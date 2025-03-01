@@ -4,6 +4,7 @@ import {
   WebhookPayload,
   WebhookMessage,
   WebhookStatus,
+  WebhookVerifyParams,
 } from "./types/core";
 import { getMediaUrl, downloadMedia } from "./utils/media";
 export function createBot(config: BotConfig): WhatsAppClient {
@@ -12,18 +13,12 @@ export function createBot(config: BotConfig): WhatsAppClient {
 
 /**
  * Verifies a WhatsApp webhook request
- * @param mode The hub.mode query parameter
- * @param token The hub.verify_token query parameter
- * @param challenge The hub.challenge query parameter
- * @param verifyToken Your configured verify token
+ * @param params The parameters for verifying the webhook
  * @returns The challenge string if verification succeeds, false otherwise
  */
-export function verifyWebhook(
-  mode: string,
-  token: string,
-  challenge: string,
-  verifyToken: string
-): string | false {
+export function verifyWebhook(params: WebhookVerifyParams): string | false {
+  const { mode, token, challenge, verifyToken } = params;
+  
   if (!mode || !token || !challenge) {
     return false;
   }
