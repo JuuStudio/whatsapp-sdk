@@ -1,11 +1,13 @@
-import { getMediaUrl as mainGetMediaUrl } from '../src';
-import { getMediaUrl as subpathGetMediaUrl } from '../src/media';
+import { getMediaUrl as mainGetMediaUrl, downloadMedia as mainDownloadMedia } from '../src';
+import { getMediaUrl as subpathGetMediaUrl, downloadMedia as subpathDownloadMedia } from '../src/media';
 import axios from 'axios';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('Media Functions', () => {
+  const ACCESS_TOKEN = 'test-token';
+
   describe('getMediaUrl', () => {
     it('should fetch media URL successfully', async () => {
       const mockResponse = {
@@ -16,7 +18,7 @@ describe('Media Functions', () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const url = await mainGetMediaUrl('media-id', 'test-token');
+      const url = await mainGetMediaUrl('media-id', ACCESS_TOKEN);
       expect(url).toBe('https://example.com/media');
       expect(mockedAxios.get).toHaveBeenCalledWith(
         'https://graph.facebook.com/v22.0/media-id',
@@ -33,20 +35,20 @@ describe('Media Functions', () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const result = await mainGetMediaUrl('https://example.com/media', 'test-token');
+      const result = await mainDownloadMedia('media-id', ACCESS_TOKEN);
       expect(result).toEqual(Buffer.from('test-data'));
     });
   });
 
   describe('Media exports', () => {
-    it('should be accessible from main export', async () => {
+    it('should be accessible from main export', () => {
       expect(mainGetMediaUrl).toBeDefined();
-      // Add your existing tests...
+      expect(mainDownloadMedia).toBeDefined();
     });
 
-    it('should be accessible from media subpath', async () => {
+    it('should be accessible from media subpath', () => {
       expect(subpathGetMediaUrl).toBeDefined();
-      // Add your existing tests...
+      expect(subpathDownloadMedia).toBeDefined();
     });
   });
 }); 
