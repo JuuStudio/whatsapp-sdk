@@ -18,7 +18,7 @@ export function createBot(config: BotConfig): WhatsAppClient {
  */
 export function verifyWebhook(params: WebhookVerifyParams): string | false {
   const { mode, token, challenge, verifyToken } = params;
-  
+
   if (!mode || !token || !challenge) {
     return false;
   }

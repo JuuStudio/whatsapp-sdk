@@ -1,6 +1,6 @@
 import axios from "axios";
 import { WhatsAppError } from "../utils/errors";
-import { MediaParams } from '../types/core';
+import { MediaParams } from "../types/core";
 
 const GRAPH_API_URL = "https://graph.facebook.com/v22.0";
 

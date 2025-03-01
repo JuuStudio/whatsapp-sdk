@@ -29,7 +29,7 @@ declare module "@juutech/whatsapp-sdk" {
             image?: { id: string; mime_type: string };
             video?: { id: string; mime_type: string };
             audio?: { id: string; mime_type: string };
-            document?: { 
+            document?: {
               id: string;
               mime_type: string;
               filename: string;
