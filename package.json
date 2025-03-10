@@ -76,7 +76,7 @@
     "typescript-eslint": "^8.25.0"
   },
   "dependencies": {
-    "axios": "^0.28.1"
+    "axios": "^1.8.2"
   },
   "exports": {
     ".": {
