@@ -75,7 +75,8 @@ declare module "@juutech/whatsapp-sdk" {
     messages: Array<{ id: string }>;
   }
 
-  interface Bot {
+  export class WhatsAppClient {
+    constructor(config: BotConfig);
     sendText(to: string, text: string): Promise<WhatsAppResponse>;
     sendImage(
       to: string,
@@ -83,7 +84,6 @@ declare module "@juutech/whatsapp-sdk" {
       caption?: string
     ): Promise<WhatsAppResponse>;
     markMessageAsRead(messageId: string): Promise<ReadReceiptResponse>;
-    // Add other bot methods as needed
   }
 
   interface WebhookVerifyParams {
@@ -131,7 +131,7 @@ declare module "@juutech/whatsapp-sdk" {
     | "location"
     | "unknown";
 
-  export function createBot(config: BotConfig): Bot;
+  export function createBot(config: BotConfig): WhatsAppClient;
   export function handleWebhook(event: WebhookEvent): Promise<{
     messages: WebhookMessage[];
     statuses: WebhookStatus[];
