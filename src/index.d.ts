@@ -80,8 +80,52 @@ declare module "@juutech/whatsapp-sdk" {
     sendText(to: string, text: string): Promise<WhatsAppResponse>;
     sendImage(
       to: string,
-      url: string,
-      caption?: string
+      image: { id?: string; link?: string; caption?: string }
+    ): Promise<WhatsAppResponse>;
+    sendVideo(
+      to: string,
+      video: { id?: string; link?: string; caption?: string }
+    ): Promise<WhatsAppResponse>;
+    sendAudio(
+      to: string,
+      audio: { id?: string; link?: string }
+    ): Promise<WhatsAppResponse>;
+    sendDocument(
+      to: string,
+      document: {
+        id?: string;
+        link?: string;
+        caption?: string;
+        filename: string;
+      }
+    ): Promise<WhatsAppResponse>;
+    sendSticker(
+      to: string,
+      sticker: { id?: string; link?: string }
+    ): Promise<WhatsAppResponse>;
+    sendLocation(
+      to: string,
+      location: {
+        latitude: number;
+        longitude: number;
+        name?: string;
+        address?: string;
+      }
+    ): Promise<WhatsAppResponse>;
+    sendInteractiveButtons(
+      to: string,
+      options: { body: string; buttons: Array<{ title: string }> }
+    ): Promise<WhatsAppResponse>;
+    sendInteractiveList(
+      to: string,
+      options: {
+        body: string;
+        buttonText: string;
+        sections: Array<{
+          title: string;
+          rows: Array<{ id: string; title: string; description?: string }>;
+        }>;
+      }
     ): Promise<WhatsAppResponse>;
     markMessageAsRead(messageId: string): Promise<ReadReceiptResponse>;
   }
