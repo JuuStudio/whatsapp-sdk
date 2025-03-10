@@ -1,10 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import {
-  BotConfig,
-  WhatsAppResponse,
-  TextMessage,
-  MessageResponse,
-} from "./types/core";
+import { BotConfig, WhatsAppResponse, ReadReceiptResponse } from "./types/core";
 import { handleApiError, WhatsAppError } from "./utils/errors";
 
 export class WhatsAppClient {
@@ -217,5 +212,21 @@ export class WhatsAppClient {
         },
       },
     });
+  }
+
+  async markMessageAsRead(messageId: string): Promise<ReadReceiptResponse> {
+    try {
+      const response = await this.api.post<ReadReceiptResponse>(
+        `/${this.config.numberId}/messages`,
+        {
+          messaging_product: "whatsapp",
+          status: "read",
+          message_id: messageId,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
   }
 }

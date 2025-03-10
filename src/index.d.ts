@@ -5,6 +5,10 @@ declare module "@juutech/whatsapp-sdk" {
     phoneNumberId: string;
   }
 
+  interface ReadReceiptResponse {
+    success: boolean;
+  }
+
   interface WebhookEvent {
     object: string;
     entry: Array<{
@@ -78,6 +82,7 @@ declare module "@juutech/whatsapp-sdk" {
       url: string,
       caption?: string
     ): Promise<WhatsAppResponse>;
+    markMessageAsRead(messageId: string): Promise<ReadReceiptResponse>;
     // Add other bot methods as needed
   }
 

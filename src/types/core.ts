@@ -233,3 +233,7 @@ export interface MediaParams {
   mediaId: string;
   accessToken: string;
 }
+
+export interface ReadReceiptResponse {
+  success: boolean;
+}
