@@ -1,6 +1,6 @@
 {
   "name": "@juutech/whatsapp-sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Modern TypeScript SDK for WhatsApp Cloud API v22.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
